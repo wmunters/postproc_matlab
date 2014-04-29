@@ -151,6 +151,8 @@ hold on
 figure(4) % pressure
 clf
 hold on
+pprec_big = pprec_big - mean(mean(pprec_big));
+pmain = pmain - mean(mean(pmain));
     if(recycleplaneswitch)
         plot_recycleplanes(hinge_stream, end_stream, hinge_span, end_span, end_corner, cutoffx, cutoffy, Nx, Ny)
     end
