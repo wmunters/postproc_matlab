@@ -74,7 +74,7 @@ for i=istart:istep:iend
     saveas(gcf,strcat(prefix,'forces_t_',timename,'.png'));
     
     figure(2) 
-    pcolor(xmesh,ymesh,div_vel'); fixfig; title('Div velocity')
+    pcolor(xmesh,ymesh,div_vel'); fixfig; caxis([-1 1]); title('Div velocity')
     saveas(gcf,strcat(prefix,'div_u_t_',timename,'.png'));
     
     figure(3)
@@ -85,6 +85,5 @@ for i=istart:istep:iend
     pcolor(xmesh,ymesh,div_force'); fixfig;title('Div force')
     saveas(gcf,strcat(prefix,'div_f_t_',timename,'.png'));
     
-    pause
-    
 end
+
