@@ -1,4 +1,7 @@
 function [power_matrix] = loadwindpowers
+%loadwindpowers Loads power extracted from ABL by wind turbines
+%   Function to load windpower from an existing file called Windpower.dat to a certain output matrix
+%   The first two indices correspond to the i and j indices of the turbine array itself.
 WP = load('Windpower.dat');
 WP = -WP;
 Nx = 6
