@@ -11,7 +11,7 @@ turbines = false;
     [prefix,~] = strtok(path,';');
     prefix = strcat(prefix,'\');
 
-Nx = 128;
+Nx = 256;
 Nx2 = 2*Nx;
 Ny = Nx;
 Ny2 = 2*Ny;
@@ -85,6 +85,6 @@ for i=istart:istep:iend
     pcolor(xmesh,ymesh,div_force'); fixfig;title('Div force')
     saveas(gcf,strcat(prefix,'div_f_t_',timename,'.png'));
     
-%     pause
+    pause
     
 end

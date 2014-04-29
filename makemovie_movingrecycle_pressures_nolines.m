@@ -14,7 +14,7 @@ plotinflowstream = false;
 savepath = true;
 plotpressure = true;
 plotfieldzerodeg = true;
-plotvar='v';
+plotvar='u';
 turbines = false;
 
 if(savepath)
@@ -24,7 +24,7 @@ else
     prefix='';
 end
 
-Nx = 128;
+Nx = 256;
 Nx2 = 2*Nx;
 Ny = Nx;
 Ny2 = 2*Ny;
