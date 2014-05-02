@@ -15,9 +15,9 @@ if(savepath)
     prefix = strcat(prefix,'\');
 else
     prefix='';
-end
+end&
 
-Nx = 256;
+Nx = 128;
 Nx2 = 2*Nx;
 Ny = Nx;
 Ny2 = 2*Ny;
@@ -90,7 +90,7 @@ Wmain = BLst.w(:,:,k);
 pmain = BLst.p(:,:,k);
 
 pmain_dummy = [pmain;pmain]; pmain_dummy =[pmain_dummy pmain_dummy];
-[dpdxmain,dpdymain] = gradient(pmain_dummy,dx,dy);
+[dpdymain,dpdxmain] = gradient(pmain_dummy,dx,dy);
 dpdxmain = dpdxmain(Nx+1:end,Ny+1:end);
 dpdymain = dpdymain(Nx+1:end,Ny+1:end);
 clear pmain_dummy
@@ -102,7 +102,7 @@ Vprec_big = [vzp; vzp]; Vprec_big = [Vprec_big Vprec_big];
 Wprec_big = [BLstp.w(:,:,k); BLstp.w(:,:,k)]; Wprec_big = [Wprec_big Wprec_big];
 pprec_big = [BLstp.p(:,:,k); BLstp.p(:,:,k)]; pprec_big = [pprec_big pprec_big];
 
-[dpdxprec_big,dpdyprec_big] = gradient(pprec_big,dx,dy);
+[dpdyprec_big,dpdxprec_big] = gradient(pprec_big,dx,dy);
 
 
 figure(1) % U components
