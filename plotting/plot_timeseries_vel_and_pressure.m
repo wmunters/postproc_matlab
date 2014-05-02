@@ -1,8 +1,8 @@
 close all
  clear all
 
-istart = 37.0;
-istep  = 0.01;
+istart = 30.0;
+istep  = 0.1;
 iend   = 39.00;
 
 save = true;
@@ -14,7 +14,7 @@ plotinflowstream = false;
 savepath = true;
 plotpressure = true;
 plotfieldzerodeg = true;
-plotvar='u';
+plotvar='v';
 turbines = false;
 
 if(savepath)
@@ -24,7 +24,7 @@ else
     prefix='';
 end
 
-Nx = 256;
+Nx = 128;
 Nx2 = 2*Nx;
 Ny = Nx;
 Ny2 = 2*Ny;
@@ -38,7 +38,7 @@ rescaling_factor = cos(30*pi/180);
 
 
 
-Lxfull = 2*pi;
+Lxfull = pi;
 Lx = Lxfull*(1-1/Nx);
 Lyfull = Lxfull;
 Ly = Lyfull*(1-1/Ny);
@@ -86,8 +86,8 @@ cmaxdp = 300
 
 
 %   
-% theta = load('alpha.dat');
-% theta(:,2) = theta(:,2)*pi/180; % THETA IS IN RADIANS, ALPHA IS IN DEGS
+theta = load('alpha.dat');
+theta(:,2) = theta(:,2)*pi/180; % THETA IS IN RADIANS, ALPHA IS IN DEGS
 
 if(turbines)
     WF = load('windfarm.setup');
@@ -136,9 +136,9 @@ for i=istart:istep:iend
     end
     
     % Adjust data for recycleplanes so we can draw them and position main
-%         alpha = theta(counter,2)*pi/180;
+        alpha = theta(counter,2)%*pi/180;
     %      alpha = 0;
-    alpha =30 *pi/180;
+%     alpha =30 *pi/180;
     %     alpha = min((i-33.0)/1,1)*30*pi/180;
     counter = counter+1;
     
@@ -202,8 +202,8 @@ for i=istart:istep:iend
         pbig = [p;p]; pbig = [pbig pbig];
         ppbig = [pp;pp]; ppbig = [ppbig ppbig];
         % Compute pressure gradients
-        [dpdxbig, dpdybig] = gradient(pbig,dx,dy); dpdx = dpdxbig(Nx+1:end,Ny+1:end); dpdy = dpdybig(Nx+1:end,Ny+1:end);
-        [dpdxpbig, dpdypbig] = gradient(ppbig,dx,dy); dpdxp = dpdxpbig(Nx+1:end,Ny+1:end); dpdyp = dpdypbig(Nx+1:end,Ny+1:end);
+        [dpdybig, dpdxbig] = gradient(pbig,dx,dy); dpdx = dpdxbig(Nx+1:end,Ny+1:end); dpdy = dpdybig(Nx+1:end,Ny+1:end);
+        [dpdypbig, dpdxpbig] = gradient(ppbig,dx,dy); dpdxp = dpdxpbig(Nx+1:end,Ny+1:end); dpdyp = dpdypbig(Nx+1:end,Ny+1:end);
        
         figure(4)
         clf
@@ -471,6 +471,7 @@ for i=istart:istep:iend
             if(iplot(k)==1)
 %                 plot(ymesh32(1:st:end),plotvar_in_span(1:st:end,8),'b')
             end
+            
         end
         
         xlabel('x')
