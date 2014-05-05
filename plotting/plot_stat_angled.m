@@ -15,7 +15,7 @@ if(savepath)
     prefix = strcat(prefix,'\');
 else
     prefix='';
-end&
+end
 
 Nx = 128;
 Nx2 = 2*Nx;
@@ -48,8 +48,8 @@ dy= ymesh(2) - ymesh(1);
 
 startx  = 1;
 starty  = 1;
-cutoffx = Nx/2;
-cutoffy = Ny/2;
+cutoffx = Nx;
+cutoffy = Ny;
 
 startxp = 1;
 startyp = 1;

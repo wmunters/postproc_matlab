@@ -1,8 +1,8 @@
-function BLtstatcc = importBLtstatcc    
+function BLtstatcc = load_BLtstatcc(filename)    
 %Function to only import BLtstatcc, useful to compare different simulations
-BL_tcc = load('BL_tstatcc.dat');
+BL_tcc = load(filename);
 
-fid = fopen('BL_tstatcc.dat');
+fid = fopen(filename);
     A = fscanf(fid,'%s');
     [~,A] = strtok(A,'=');
     [n,A] = strtok(A(2:100),';');            %20 just arbitrary number 
