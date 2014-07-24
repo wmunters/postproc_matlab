@@ -1,4 +1,5 @@
-function [NSpost1] = load_NSpost
+function [NSpost1] = load_NSpost(name)
+NS = load(name);
 
 NSpost1.t = NS(:,1);
 NSpost1.Um = NS(:,2);

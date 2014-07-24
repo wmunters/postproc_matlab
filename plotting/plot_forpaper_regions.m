@@ -69,6 +69,10 @@ U = zeros(256,512,80);
 xmin = -0.25*Lx; xmax = 1.25*Lx;
 ymin = -0.25*Ly; ymax = 1.25*Ly;
 
+
+xmin = -0.45*Lx; xmax = 1.25*Lx;
+ymin = -0.45*Ly; ymax = 1.25*Ly;
+
 dx= xmesh(2) - xmesh(1);
 dy= ymesh(2) - ymesh(1);
 
@@ -90,8 +94,8 @@ else
     cmax=26; %22.5
 end
 
- cmin=9
- cmax=22.5
+ cmin=13
+ cmax=23
 
 cminp = -10
 cmaxp = 10
@@ -135,7 +139,7 @@ xstart = 2*Lxfull;
 ystart = 3*Lyfull;
 Lprime = sqrt(xstart^2 + ystart^2);
 alpha0 = atan(ystart/xstart);
-
+N = 4;
 % PLOTTING LOOP
 %----------------------------------------------------------------------
 for i=istart:istep:iend
@@ -222,21 +226,36 @@ for i=istart:istep:iend
 
         % Precursor
         g=pcolor(xmeshbig(startxp:cutoffxp),ymeshbig(startyp:cutoffyp),plotvar_prec_big(startxp:cutoffxp,startyp:cutoffyp)');
+        set(g,'FaceColor','interp')
         
-        % Main
-        h=pcolor(xmesh(startx:cutoffx),ymesh(starty:cutoffy),plotvar_main(startx:cutoffx,starty:cutoffy)');
+        
+        
+         
+        
         caxis manual
         caxis([cmin cmax])
-        cbar = colorbar;
-        lab = ylabel(cbar,'(u^2 + v^2)^{1/2}/u_\tau');
+%         cbar = colorbar;
+%         lab = ylabel(cbar,'(u^2 + v^2)^{1/2}/u_\tau');
         shading interp
         axis equal
         axis tight
+        
+         for j=1:N
+         for i=1:N
+          f=patch([0 0 Lx Lx]+(i-1)*[Lx Lx Lx Lx],[0 Ly Ly 0]+(j-1)*[Ly Ly Ly Ly],'w');set(f,'FaceAlpha',0,'EdgeColor','w','LineWidth',2.5);
+          g = [g;f];
+         end
+         end
 
-        plot([0 0],[0 Ly],'b','LineWidth',2)
-        plot([Lx Lx],[0 Ly],'b','LineWidth',2)
-        plot([0 Lx],[0 0],'b','LineWidth',2)
-        plot([0 Lx],[Ly Ly],'b','LineWidth',2)
+        % Main
+        
+        
+        
+         
+%          shading interp
+%         f2=patch([0 0 Lx Lx]+2*[Lx Lx Lx Lx],[0 Ly Ly 0],'w');set(f2,'FaceAlpha',1);
+%         f = rectangle('position',[0 0 Lx Ly],'edgecolor','k');
+%         g = [g;f];
         
         if(cutoffx~=Nx)
             plot([xmesh(startx) xmesh(startx)],[ymesh(starty) ymesh(cutoffy)],':k')
@@ -247,19 +266,13 @@ for i=istart:istep:iend
                 
 
     	% Rotate Precursor
-        rotate(g,[0 0 1],alpha/pi*180,[0 0 0]);
-        % Reposition Precursor
-        xp = get(g,'XData');
-        yp = get(g,'YData');
-        % Vertical alignment
-        shift_y = y0 - Lprime*sin(alpha0 + alpha);
-        yp = yp + shift_y;
-        set(g,'YData',yp);
-        % Horizontal alignment
-        shift_x = x0 - Lprime*cos(alpha0 + alpha);
-        xp = xp + shift_x;
-        set(g,'XData',xp);
-        
+        for i=1:numel(g)
+        rotatefig(g(i),alpha,x0,y0,Lprime,alpha0)
+        end
+%           rotaterect(f,alpha,x0,y0,Lprime,alpha0)
+%          rotatefig(f2,alpha,x0,y0,Lprime,alpha0)
+        h=pcolor(xmesh(startx:cutoffx),ymesh(starty:cutoffy),plotvar_main(startx:cutoffx,starty:cutoffy)');
+        set(h,'ZData',0.01*ones(256),'EdgeColor','None','FaceColor','interp');
         % Reposition Main
         xm = get(h,'XData');
         ym = get(h,'Ydata');
@@ -274,8 +287,7 @@ for i=istart:istep:iend
         xm = xm + shift_x;
         set(h,'XData',xm);
         
-        xlabel('x')
-        ylabel('y')
+        set(gca,'xtick',[],'ytick',[]);
         xlim([xmin xmax]); ylim([ymin ymax]);
         
         if(turbines)
@@ -295,26 +307,95 @@ for i=istart:istep:iend
 %         plot([xmesh(startcompx) xmesh(stopcompx)],[ymesh(stopcompy) ymesh(stopcompy)],'k')
 
         a = 1.5;
-        comp = compass(a*cos(alpha), a*sin(alpha));
-        set(comp,'Color','k');
+%         comp = compass(a*cos(alpha), a*sin(alpha));
+%         set(comp,'Color','k');
 %         comp2 = compass(a*cos(phi(counter)), a*sin(phi(counter)));
-        set(comp,'LineWidth',2)
+%         set(comp,'LineWidth',2)
 %         set(comp2,'LineWidth',2)
 %        set(comp2,'Color','k')
-        sx = (xmesh(startcompx)+xmesh(stopcompx))/2;
-        sy = (ymesh(startcompy)+ymesh(stopcompy))/2;
+% %         sx = (xmesh(startcompx)+xmesh(stopcompx))/2;
+%         sy = (ymesh(startcompy)+ymesh(stopcompy))/2;
 %         set(comp2,'XData',get(comp2,'XData')+[sx sx sx sx sx])
 %         set(comp2,'YData',get(comp2,'YData')+[sy sy sy sy sy])
         
+        
+
         % Plot fringe region outline
+        plotfringe = false;
         if(plotfringe)
             plot([Lxfringe Lxfringe],[0 Lyfringe],'-.k','LineWidth',1.5)
             plot([0 Lxfringe],[Lyfringe Lyfringe],'-.k','LineWidth',1.5)
         end
         
+        plotregions = false;
+        lw = 2.5;
+        linestyle = '-c';
+        linestylesp = '-.g';
+        linestylec = '-ow';
+        fills = 'r';
+        fillsp = 'm';
+        fillc = [1 0.5 0.2];
+        opac = 0.6;
+        zh = 0.1;
+        %Streamwise fringe region
+        lw = 2.5;
+        ls = '-.';
+        s=fill3([Lxfringe Lx Lx Lxfringe],[0 0 Lyfringe Lyfringe],[zh zh zh zh],fills,'LineWidth',lw); set(s,'FaceAlpha',opac);
+        s2=fill3([Lxfringe Lx Lx Lxfringe]-[Lx Lx Lx Lx],[0 0 Lyfringe Lyfringe],[zh zh zh zh],fills,'LineStyle',ls,'LineWidth',lw); set(s2,'FaceAlpha',opac);
+        %Spanwise fringe region
+        sp=fill3([0 Lxfringe Lxfringe 0],[Lyfringe Lyfringe Ly Ly],[zh zh zh zh],fillsp,'LineWidth',lw); set(sp,'FaceAlpha',opac);
+        sp2=fill3([0 Lxfringe Lxfringe 0],[Lyfringe Lyfringe Ly Ly]-[Ly Ly Ly Ly],[zh zh zh zh],fillsp,'LineStyle',ls,'LineWidth',lw); set(sp2,'FaceAlpha',opac);
+        
+        %Corner region
+        c=fill3([Lxfringe Lx Lx Lxfringe],[Lyfringe Lyfringe Ly Ly],[zh zh zh zh],fillc,'LineWidth',lw);set(c,'FaceAlpha',opac);
+        c2=fill3([Lxfringe Lx Lx Lxfringe]-[Lx Lx Lx Lx],[Lyfringe Lyfringe Ly Ly]-[Ly Ly Ly Ly],[zh zh zh zh],fillc,'EdgeColor','None');set(c2,'FaceAlpha',opac);
+        plot3([Lxfringe-Lx 0],[Lyfringe-Ly Lyfringe-Ly],[zh zh],'-.k','LineWidth',lw)
+        plot3([Lxfringe-Lx Lxfringe-Lx],[Lyfringe-Ly 0],[zh zh],'-.k','LineWidth',lw)
+        
+        
+        
+        if(plotregions)
+            %Streamwise fringe region
+            plot([Lxfringe Lxfringe],[0 Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lxfringe Lx],[Lyfringe Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lx Lx],[0 Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lxfringe Lx],[0 0],linestyle,'LineWidth',lw)
+            plot([Lxfringe-Lx Lxfringe-Lx],[0 Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lxfringe-Lx Lx-Lx],[Lyfringe Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lx-Lx Lx-Lx],[0 Lyfringe],linestyle,'LineWidth',lw)
+            plot([Lxfringe-Lx Lx-Lx],[0 0],linestyle,'LineWidth',lw)
+            %Spanwise fringe region
+            plot([0 Lxfringe],[Lyfringe Lyfringe],linestylesp,'LineWidth',lw)
+            plot([0 Lxfringe],[Ly Ly],linestylesp,'LineWidth',lw)
+            plot([Lxfringe Lxfringe],[Lyfringe Ly],linestylesp,'LineWidth',lw)
+            plot([0 0],[Lyfringe Ly],linestylesp,'LineWidth',lw)
+            plot([0 Lxfringe],[Lyfringe Lyfringe]-[Ly Ly],linestylesp,'LineWidth',lw)
+            plot([0 Lxfringe],[Ly Ly]-[Ly Ly],linestylesp,'LineWidth',lw)
+            plot([Lxfringe Lxfringe],[Lyfringe Ly]-[Ly Ly],linestylesp,'LineWidth',lw)
+            plot([0 0],[Lyfringe Ly]-[Ly Ly],linestylesp,'LineWidth',lw)
+            %Corner region
+            plot([Lxfringe Lxfringe],[Lyfringe Ly],linestylec,'LineWidth',lw)
+            plot([Lx Lx],[Lyfringe Ly],linestylec,'LineWidth',lw)
+            plot([Lxfringe Lx],[Ly Ly],linestylec,'LineWidth',lw)
+            plot([Lxfringe Lx],[Lyfringe Lyfringe],linestylec,'LineWidth',lw)
+            plot([Lxfringe Lxfringe]-[Lx Lx],[Lyfringe Ly]-[Ly Ly],linestylec,'LineWidth',lw)
+            plot([Lx Lx]-[Lx Lx],[Lyfringe Ly]-[Ly Ly],linestylec,'LineWidth',lw)
+            plot([Lxfringe Lx]-[Lx Lx],[Ly Ly]-[Ly Ly],linestylec,'LineWidth',lw)
+            plot([Lxfringe Lx]-[Lx Lx],[Lyfringe Lyfringe]-[Ly Ly],linestylec,'LineWidth',lw)
+        end
+        
+        % Plot main domain boundaries
+        lw = 2.5;
+        linestyle='b';
+        plot3([0 0],[0 Ly],[1 1],linestyle,'LineWidth',lw)
+        plot3([Lx Lx],[0 Ly],[1 1],linestyle,'LineWidth',lw)
+        plot3([0 Lx],[0 0],[1 1],linestyle,'LineWidth',lw)
+        plot3([0 Lx],[Ly Ly],[1 1],linestyle,'LineWidth',lw)
         
         % Finally, save the picture
         filename= strcat(prefix,plotvar,'_t_',timename,'.png');
+        
+        
         
         if(save)
             saveas(gcf,filename);

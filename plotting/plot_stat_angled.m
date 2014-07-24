@@ -57,7 +57,7 @@ cutoffxp = Nx2;
 cutoffyp = Ny2;
 
 
-alpha = 30*pi/180;
+alpha = 0*pi/180;
 
 offsetplanes = [0; Lyfull];
 hinge_span   = [Lx ; Ly]+offsetplanes;
@@ -78,7 +78,7 @@ end_span   = [Lx+Ly*cos(alpha)     ; Ly*( 1 - sin(alpha))]+offsetplanes;
 end_corner = [end_stream(1) + (end_span(1) - hinge_span(1));end_stream(2) + (end_span(2) - hinge_span(2))];
 
 
-for k=1:80
+% for k=1:80
 
 k    
     
@@ -196,4 +196,4 @@ hold on
         saveas(gcf,filename);
     end
     
-end
+% end

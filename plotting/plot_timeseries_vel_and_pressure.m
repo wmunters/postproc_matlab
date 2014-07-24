@@ -1,20 +1,20 @@
 close all
  clear all
 
-istart = 30.0;
-istep  = 0.1;
+istart = 0.00;
+istep  = 0.01;
 iend   = 39.00;
 
 save = true;
 recycleplaneswitch = true;
 fastrun = false;
 plotfield = true;
-plotline = true;
+plotline = false;
 plotinflowstream = false;
 savepath = true;
 plotpressure = true;
 plotfieldzerodeg = true;
-plotvar='v';
+plotvar='u';
 turbines = false;
 
 if(savepath)
@@ -24,9 +24,9 @@ else
     prefix='';
 end
 
-Nx = 128;
+Nx = 768;
 Nx2 = 2*Nx;
-Ny = Nx;
+Ny = 128;
 Ny2 = 2*Ny;
 Nz = 80;
 
@@ -35,16 +35,17 @@ Ny32 = 1.5*Ny;
 
 rescaling_factor = cos(30*pi/180);
 
+fringexperc= 0.85;
+fringeyperc= 0.85;
 
 
-
-Lxfull = pi;
+Lxfull = 18;
 Lx = Lxfull*(1-1/Nx);
-Lyfull = Lxfull;
+Lyfull = 3;
 Ly = Lyfull*(1-1/Ny);
 %%%%%
 
-xrec = 0.75*Lx;
+xrec = 0.80*Lx;
 
 xmesh = linspace(0,Lx,Nx);
 xmesh32 = linspace(0,Lx,Nx32);
@@ -78,6 +79,9 @@ else
     cmin=9;
     cmax=22.5;
 end
+
+%cmin = 6
+%cmax = 15
 
 cminp = -10
 cmaxp = 10
@@ -127,17 +131,18 @@ for i=istart:istep:iend
     
     % First correct timename so we can read in our files.
     timename = num2str(i);
-    if(length(timename)==2) % geen cijfers na de komma
+    if(length(timename)==1) % geen cijfers na de komma
         timename = strcat(timename,'.0000');
     else
-        while(length(timename)<7)
+        while(length(timename)<6)
             timename = strcat(timename,'0');
         end
     end
     
     % Adjust data for recycleplanes so we can draw them and position main
-        alpha = theta(counter,2)%*pi/180;
-    %      alpha = 0;
+         alpha = theta(counter,2)%*pi/180;
+%         alpha = 30*pi/180;
+%          alpha = 0;
 %     alpha =30 *pi/180;
     %     alpha = min((i-33.0)/1,1)*30*pi/180;
     counter = counter+1;
@@ -152,6 +157,9 @@ for i=istart:istep:iend
     
     fracx = cutoffx/Nx;
     fracy = cutoffy/Ny;
+    %%%%%%%%%%%%%%%%%%%%%
+    fracx = fringexperc;
+    fracy = fringeyperc;
     downright_small = end_stream*(1-fracx) + end_corner*fracx;
     topleft_small = hinge_stream*(fracy) + end_stream*(1-fracy);
     topright_small = topleft_small + downright_small - end_stream;
@@ -278,7 +286,8 @@ for i=istart:istep:iend
                 WF2 = WF;
                 WF2(:,1) = WF2(:,1) + Lx;
                 plot_turbines_topview(WF2)
-            end 
+       end 
+            
        subplot(2,1,2)
        hold on
        pcolor(xmeshbig,ymesh, p_merged')
@@ -309,19 +318,21 @@ for i=istart:istep:iend
         hold on
         % Planes
         
+        lw = 1;
+        
         if(recycleplaneswitch)
             % Full main domain
-            plot([hinge_stream(1) end_stream(1)],[hinge_stream(2) end_stream(2)],'k','LineWidth',0.3)
-            plot([hinge_span(1) end_span(1)],[hinge_span(2) end_span(2)],'k','LineWidth',0.3)
-            plot([end_corner(1) end_span(1)],[end_corner(2) end_span(2)],'k','LineWidth',0.3)
-            plot([end_corner(1) end_stream(1)],[end_corner(2) end_stream(2)],'k','LineWidth',0.3)
-            % Add boundaries of smaller domain
-            if(cutoffx ~= Nx || cutoffy ~= Ny)
-                plot([downright_small(1) end_stream(1)],[downright_small(2) end_stream(2)],':k','LineWidth',0.5)
-                plot([topleft_small(1) end_stream(1)],[topleft_small(2) end_stream(2)],':k','LineWidth',0.5)
-                plot([topleft_small(1) topright_small(1)],[topleft_small(2) topright_small(2)],':k','LineWidth',0.5)
-                plot([downright_small(1) topright_small(1)],[downright_small(2) topright_small(2)],':k','LineWidth',0.5)
-            end
+            plot([hinge_stream(1) end_stream(1)],[hinge_stream(2) end_stream(2)],'b','LineWidth',lw)
+            plot([hinge_span(1) end_span(1)],[hinge_span(2) end_span(2)],'b','LineWidth',lw)
+            plot([end_corner(1) end_span(1)],[end_corner(2) end_span(2)],'b','LineWidth',lw)
+            plot([end_corner(1) end_stream(1)],[end_corner(2) end_stream(2)],'b','LineWidth',lw)
+                       % Add boundaries of smaller domain
+%             if(cutoffx ~= Nx || cutoffy ~= Ny)
+%                 plot([downright_small(1) end_stream(1)],[downright_small(2) end_stream(2)],'-.k','LineWidth',lw)
+%                 plot([topleft_small(1) end_stream(1)],[topleft_small(2) end_stream(2)],'-.k','LineWidth',lw)
+                plot([topleft_small(1) topright_small(1)],[topleft_small(2) topright_small(2)],'-.k','LineWidth',lw)
+                plot([downright_small(1) topright_small(1)],[downright_small(2) topright_small(2)],'-.k','LineWidth',lw)
+%             end
         end
         
         

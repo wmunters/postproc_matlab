@@ -227,8 +227,8 @@ for i=istart:istep:iend
         h=pcolor(xmesh(startx:cutoffx),ymesh(starty:cutoffy),plotvar_main(startx:cutoffx,starty:cutoffy)');
         caxis manual
         caxis([cmin cmax])
-        cbar = colorbar;
-        lab = ylabel(cbar,'(u^2 + v^2)^{1/2}/u_\tau');
+%         cbar = colorbar;
+%         lab = ylabel(cbar,'(u^2 + v^2)^{1/2}/u_\tau');
         shading interp
         axis equal
         axis tight
@@ -274,8 +274,7 @@ for i=istart:istep:iend
         xm = xm + shift_x;
         set(h,'XData',xm);
         
-        xlabel('x')
-        ylabel('y')
+        set(gca,'xtick',[],'ytick',[]);
         xlim([xmin xmax]); ylim([ymin ymax]);
         
         if(turbines)
@@ -295,14 +294,14 @@ for i=istart:istep:iend
 %         plot([xmesh(startcompx) xmesh(stopcompx)],[ymesh(stopcompy) ymesh(stopcompy)],'k')
 
         a = 1.5;
-        comp = compass(a*cos(alpha), a*sin(alpha));
-        set(comp,'Color','k');
+%         comp = compass(a*cos(alpha), a*sin(alpha));
+%         set(comp,'Color','k');
 %         comp2 = compass(a*cos(phi(counter)), a*sin(phi(counter)));
-        set(comp,'LineWidth',2)
+%         set(comp,'LineWidth',2)
 %         set(comp2,'LineWidth',2)
 %        set(comp2,'Color','k')
-        sx = (xmesh(startcompx)+xmesh(stopcompx))/2;
-        sy = (ymesh(startcompy)+ymesh(stopcompy))/2;
+% %         sx = (xmesh(startcompx)+xmesh(stopcompx))/2;
+%         sy = (ymesh(startcompy)+ymesh(stopcompy))/2;
 %         set(comp2,'XData',get(comp2,'XData')+[sx sx sx sx sx])
 %         set(comp2,'YData',get(comp2,'YData')+[sy sy sy sy sy])
         
