@@ -1,5 +1,5 @@
 postproc_matlab
 ===============
-Postprocessing subroutines for concurrent precursor large eddy simulations at variable inflow angles.
+Postprocessing tools for SP-Wind Large Eddy Simulation code.
 
 Developed by Wim Munters in Spring 2014.
