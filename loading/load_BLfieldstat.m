@@ -1,4 +1,4 @@
-function [BLst] = load_stat(name,Nx,Ny)
+function [BLst] = load_BLfieldstat(name,Nx,Ny)
 
 % First load in data
 	BLd = load(name);
