@@ -66,7 +66,8 @@ function [BLfield,fieldr] = load_BLfield(name, Nx, Ny, Nz, Nl)
     BLfield.v = [BLfield.v; v_comp];
     BLfield.w = [BLfield.w; w_comp];
     
-    scaling = 1/(Nx*Ny);
+    %scaling = 1/(Nx*Ny);
+    scaling = Nx*Ny;
 
     % Then,  perform the inverse Fourier transform and store in the fieldr structure
     fieldr.u = abs(ifft2(BLfield.u))*scaling;
