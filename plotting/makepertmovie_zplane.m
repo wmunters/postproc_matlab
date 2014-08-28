@@ -1,6 +1,6 @@
 function makepertmovie_zplane(Nx, Ny, Lx, Ly)
-istart = 0.05
-istop  = 5
+istart = 6
+istop  = 6
 istep = 0.05;
 
 xgrid = makegrid(Lx,Nx);
@@ -34,7 +34,7 @@ for i=istart:istep:istop
     caxis([10 20]);
     axis equal; axis tight; xlim([10 20]);
     
-    saveas(gca,strcat(filename,'.png'));
+%     saveas(gca,strcat(filename,'.png'));
     
     
 end

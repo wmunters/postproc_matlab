@@ -1,13 +1,8 @@
-function [k,uh_avg] = avg_spect(Nx, Ny, Lx, Ly)
+function [k,uh_avg] = avg_spect(Nx, Ny, Lx, Ly, istart, istop, istep)
 
-
-
-istart = 2.5;
-istop  = 5;
-istep  = 0.05;
 uh_avg = zeros(Nx,Ny/2-1);
-
 counter = 0;
+
 for i=istart:istep:istop
     i
     counter = counter+1;
