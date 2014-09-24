@@ -4,8 +4,8 @@ function [power_matrix] = load_windpowers
 %   The first two indices correspond to the i and j indices of the turbine array itself.
 WP = load('Windpower.dat');
 WP = -WP;
-Nx = 8
-Ny = 6
+Nx = 6
+Ny = 8
 
 Nturb = Nx*Ny
 

@@ -8,12 +8,12 @@ function [uh_avg,k] = postproc_spectra(xlocs,uh_in, k_in)
     Lx = 16*pi;
     Ly = pi;
     istart = 3;
-    istep  = 0.05;
+    istep  = 0.01;
     istop  = 5;
     symbolslist = {'o'; 's'; '<'; '>'};
     colorslist = {'k'; 'b'; 'r'};
     lineslist = {'-'; '.-'};
-    frmt = {'-ok'; '-<k'; '--sk'; '-ob'; '-<b'; '--sb'; '-or'; '-<r'; '--sr'};
+    frmt = {'-ok'; '-<k'; '--sk'; '-ob'; '-<b'; '--sb'; '-or'; '-<r'; '--sr'; '-or'; '-<r'};
 %    frmt = ['b'; 'r'; 'k'; 'g'; 'c'; 'm'];
 %    frmt= {'-ok';'-sk';'-->k';':<k';':k';'-ob';'-sb';'--db';':xb';':b'};
 

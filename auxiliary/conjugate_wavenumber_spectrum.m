@@ -28,9 +28,10 @@ function [field_comp] = conjugate_wavenumber_spectrum(field)
     
     field_comp = zeros(Nxh-2,Ny,Nz);
     % ky=0
-    field_comp(:,1,:) = conj(flipud(field(2:end-1,1,:)));
+    field_comp(:,1,:) = conj(flipud(squeeze(field(2:end-1,1,:))));
+    for k=1:Nz
     % ky>0
-    field_comp(:,2:Nyh-1,:) = conj(fliplr(flipud(field(2:end-1,Nyh+1:end,:))));
+    field_comp(:,2:Nyh-1,k) = conj(fliplr(flipud(field(2:end-1,Nyh+1:end,k))));
     % ky<0
-    field_comp(:,Nyh+1:end,:) = conj(fliplr(flipud(field(2:end-1,2:Nyh-1,:))));
-    
+    field_comp(:,Nyh+1:end,k) = conj(fliplr(flipud(field(2:end-1,2:Nyh-1,k))));
+    end 

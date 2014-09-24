@@ -4,5 +4,5 @@ theta=0:0.01:2*pi;
 v=null(normal);
 points=repmat(center',1,size(theta,2))+radius*(v(:,1)*cos(theta)+v(:,2)*sin(theta));
 % plot3(points(1,:),points(2,:),points(3,:),'k-','LineWidth',2);
-fill3(points(1,:),points(2,:),points(3,:),'k','FaceAlpha',0.5);
+fill3(points(1,:),points(2,:),points(3,:),'w','FaceAlpha',0.99);
 end
