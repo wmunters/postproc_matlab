@@ -28,8 +28,20 @@ function [BLfield,fieldr] = load_BLfield(name, Nx, Ny, Nz, Nl)
     Nxh = Nx/2 + 1;
     Nyh = Ny/2 + 1;
 
-    field_dumm = load(name);
-    field_dummc = field_dumm(:,1) + 1i*field_dumm(:,2);
+    fileID=fopen('BL_field.dat');
+    time=fread(fileID,1,'real*8');
+    Lx=fread(fileID,1,'real*8');
+    Ly=fread(fileID,1,'real*8');
+    Nx2=fread(fileID,1,'integer*4');
+    Ny=fread(fileID,1,'integer*4');
+    Nz=fread(fileID,1,'integer*4'); 
+    Theta_ground=fread(fileID,1,'real*8');
+    field_dumm=fread(fileID,'real*8');
+    
+    
+
+    %field_dumm = load(name);
+    field_dummc = field_dumm(1:2:end) + 1i*field_dumm(2:2:end);
    
     % First of all, load in the data
 

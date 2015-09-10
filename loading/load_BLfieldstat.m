@@ -1,7 +1,12 @@
 function [BLst] = load_BLfieldstat(name,Nx,Ny,Nz)
 
 % First load in data
-	BLd = load(name);
+	%BLd = load(name);
+    fileID = fopen(name);
+    Nsamp = fread(fileID,1,'integer*4');
+    time_interv = fread(fileID,1,'real*4');
+    time_incurr = fread(fileID,1,'real*4');
+    BLd = fread(fileID,'real*8');
 	BLd = reshape(BLd',[size(BLd,1)*size(BLd,2) 1]);
 	
 % Start dividing and reshaping, put into structure
